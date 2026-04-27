@@ -1,0 +1,31 @@
+{
+  "name": "ledgermem",
+  "label": "LedgerMem",
+  "version": 1,
+  "theme": "#5B6CFF",
+  "language": "en",
+  "countries": ["us", "gb", "de", "ca", "au"],
+  "description": "LedgerMem — long-term memory for AI agents and automations.",
+  "audience": "global",
+  "base": {
+    "baseUrl": "https://api.proofly.dev/v1",
+    "headers": {
+      "Authorization": "Bearer {{connection.apiKey}}",
+      "x-workspace-id": "{{connection.workspaceId}}",
+      "Content-Type": "application/json",
+      "User-Agent": "ledgermem-make/1.0"
+    }
+  },
+  "common": {
+    "connection": "apikey",
+    "errorHandling": {
+      "default": {
+        "message": "[{{statusCode}}] {{body.message}}"
+      },
+      "401": { "type": "ConnectionError", "message": "Invalid API key" },
+      "403": { "type": "ConnectionError", "message": "Workspace forbidden" },
+      "404": { "type": "DataError", "message": "Memory not found" },
+      "429": { "type": "RateLimitError", "message": "Rate limit exceeded" }
+    }
+  }
+}

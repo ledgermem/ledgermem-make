@@ -1,0 +1,36 @@
+{
+  "name": "apikey",
+  "label": "LedgerMem API Key",
+  "type": "apiKey",
+  "parameters": [
+    {
+      "name": "apiKey",
+      "label": "API Key",
+      "type": "password",
+      "required": true,
+      "help": "Find this in Settings → API Keys at https://proofly.dev"
+    },
+    {
+      "name": "workspaceId",
+      "label": "Workspace ID",
+      "type": "text",
+      "required": true,
+      "help": "Your LedgerMem workspace identifier"
+    }
+  ],
+  "communication": {
+    "url": "/search",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {{parameters.apiKey}}",
+      "x-workspace-id": "{{parameters.workspaceId}}",
+      "Content-Type": "application/json"
+    },
+    "body": { "query": "test", "limit": 1 },
+    "response": {
+      "valid": { "condition": "{{statusCode === 200}}" },
+      "error": { "type": "ConnectionError", "message": "Invalid credentials" },
+      "data": { "workspaceId": "{{parameters.workspaceId}}" }
+    }
+  }
+}

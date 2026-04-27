@@ -1,0 +1,26 @@
+{
+  "name": "updateMemory",
+  "label": "Update Memory",
+  "description": "Updates the content or metadata of an existing memory.",
+  "type": "action",
+  "actionType": "update",
+  "connection": "apikey",
+  "parameters": [
+    { "name": "id", "label": "Memory ID", "type": "text", "required": true },
+    { "name": "content", "label": "Content", "type": "text" },
+    { "name": "metadata", "label": "Metadata", "type": "collection" }
+  ],
+  "communication": {
+    "url": "/memories/{{parameters.id}}",
+    "method": "PATCH",
+    "body": {
+      "content": "{{parameters.content}}",
+      "metadata": "{{parameters.metadata}}"
+    },
+    "response": { "output": "{{body}}" }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "content", "label": "Content", "type": "text" }
+  ]
+}

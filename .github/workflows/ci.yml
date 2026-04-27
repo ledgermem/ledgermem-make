@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Validate every JSON file
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            echo "checking $f"
+            jq empty "$f" || { echo "INVALID: $f"; fail=1; }
+          done < <(find . -name '*.json' -not -path './node_modules/*' -not -path './.git/*')
+          exit $fail

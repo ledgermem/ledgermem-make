@@ -1,0 +1,32 @@
+{
+  "name": "Slack message → LedgerMem with sentiment tag",
+  "description": "Watches a Slack channel, runs sentiment analysis on each message, and stores the result in LedgerMem with the sentiment as metadata.",
+  "flow": [
+    {
+      "id": 1,
+      "module": "slack:WatchPublicChannelMessages",
+      "parameters": { "channel": "C0000000000" }
+    },
+    {
+      "id": 2,
+      "module": "openai-gpt-3:CreateCompletion",
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "prompt": "Classify sentiment as positive/neutral/negative: {{1.text}}"
+      }
+    },
+    {
+      "id": 3,
+      "module": "ledgermem:addMemory",
+      "parameters": {
+        "content": "{{1.user.real_name}} in #{{1.channel}}: {{1.text}}",
+        "metadata": [
+          { "key": "source", "value": "slack" },
+          { "key": "sentiment", "value": "{{2.choices[0].text}}" },
+          { "key": "channel_id", "value": "{{1.channel}}" }
+        ]
+      }
+    }
+  ],
+  "metadata": { "version": 1, "scenario": { "roundtrips": 1, "maxErrors": 3 } }
+}

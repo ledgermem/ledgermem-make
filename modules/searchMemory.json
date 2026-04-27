@@ -1,0 +1,28 @@
+{
+  "name": "searchMemory",
+  "label": "Search Memory",
+  "description": "Semantic search across the workspace memory store.",
+  "type": "action",
+  "actionType": "search",
+  "connection": "apikey",
+  "parameters": [
+    { "name": "query", "label": "Query", "type": "text", "required": true },
+    { "name": "limit", "label": "Limit", "type": "number", "default": 5 },
+    { "name": "actorId", "label": "Actor ID", "type": "text" }
+  ],
+  "communication": {
+    "url": "/search",
+    "method": "POST",
+    "body": {
+      "query": "{{parameters.query}}",
+      "limit": "{{parameters.limit}}",
+      "actorId": "{{parameters.actorId}}"
+    },
+    "response": { "iterate": "{{body.hits}}", "output": "{{item}}" }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "content", "label": "Content", "type": "text" },
+    { "name": "score", "label": "Similarity Score", "type": "number" }
+  ]
+}

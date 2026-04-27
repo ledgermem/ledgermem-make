@@ -1,0 +1,20 @@
+{
+  "name": "deleteMemory",
+  "label": "Delete Memory",
+  "description": "Permanently deletes a memory by ID.",
+  "type": "action",
+  "actionType": "delete",
+  "connection": "apikey",
+  "parameters": [
+    { "name": "id", "label": "Memory ID", "type": "text", "required": true }
+  ],
+  "communication": {
+    "url": "/memories/{{parameters.id}}",
+    "method": "DELETE",
+    "response": { "output": { "id": "{{parameters.id}}", "deleted": true } }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "deleted", "label": "Deleted", "type": "boolean" }
+  ]
+}

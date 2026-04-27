@@ -1,0 +1,31 @@
+{
+  "name": "addMemory",
+  "label": "Add Memory",
+  "description": "Stores a new memory in the workspace.",
+  "type": "action",
+  "actionType": "create",
+  "connection": "apikey",
+  "parameters": [
+    { "name": "content", "label": "Content", "type": "text", "required": true },
+    { "name": "metadata", "label": "Metadata", "type": "collection", "spec": [
+      { "name": "key", "type": "text" },
+      { "name": "value", "type": "text" }
+    ] },
+    { "name": "actorId", "label": "Actor ID", "type": "text" }
+  ],
+  "communication": {
+    "url": "/memories",
+    "method": "POST",
+    "body": {
+      "content": "{{parameters.content}}",
+      "metadata": "{{parameters.metadata}}",
+      "actorId": "{{parameters.actorId}}"
+    },
+    "response": { "output": "{{body}}" }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "content", "label": "Content", "type": "text" },
+    { "name": "createdAt", "label": "Created At", "type": "date" }
+  ]
+}

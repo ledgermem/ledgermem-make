@@ -1,0 +1,29 @@
+{
+  "name": "newMemoryHook",
+  "label": "New Memory (Instant)",
+  "description": "Webhook receiver for instant new-memory events. Configure target URL in LedgerMem dashboard.",
+  "type": "webhook",
+  "connection": "apikey",
+  "communication": {
+    "verification": {
+      "condition": "{{request.headers['x-ledgermem-secret']}} === '{{connection.workspaceId}}'",
+      "respond": { "status": 200, "body": { "ok": true } }
+    },
+    "response": { "output": "{{request.body}}" }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "content", "label": "Content", "type": "text" },
+    { "name": "event", "label": "Event Type", "type": "text" }
+  ],
+  "attach": {
+    "url": "/webhooks",
+    "method": "POST",
+    "body": { "url": "{{webhook.url}}", "events": ["memory.created"] },
+    "response": { "data": { "hookId": "{{body.id}}" } }
+  },
+  "detach": {
+    "url": "/webhooks/{{webhook.hookId}}",
+    "method": "DELETE"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "newMemory",
+  "label": "Watch New Memories",
+  "description": "Triggers when a new memory is added — polls /memories and dedupes by id.",
+  "type": "trigger",
+  "triggerType": "polling",
+  "connection": "apikey",
+  "parameters": [
+    { "name": "limit", "label": "Batch Size", "type": "number", "default": 25 }
+  ],
+  "communication": {
+    "url": "/memories",
+    "method": "GET",
+    "qs": { "limit": "{{parameters.limit}}" },
+    "response": {
+      "iterate": "{{body.items}}",
+      "output": "{{item}}",
+      "trigger": { "id": "{{item.id}}", "date": "{{item.createdAt}}", "type": "id" }
+    }
+  },
+  "interface": [
+    { "name": "id", "label": "Memory ID", "type": "text" },
+    { "name": "content", "label": "Content", "type": "text" },
+    { "name": "createdAt", "label": "Created At", "type": "date" },
+    { "name": "metadata", "label": "Metadata", "type": "collection" }
+  ]
+}
