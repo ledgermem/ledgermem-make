@@ -6,7 +6,7 @@
   "connection": "apikey",
   "communication": {
     "verification": {
-      "condition": "{{request.headers['x-ledgermem-signature']}} === '{{webhook.signingSecret}}'",
+      "condition": "{{length(webhook.signingSecret) > 0 && request.headers['x-ledgermem-signature'] = webhook.signingSecret}}",
       "respond": { "status": 200, "body": { "ok": true } }
     },
     "response": { "output": "{{request.body}}" }

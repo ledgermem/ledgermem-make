@@ -11,7 +11,7 @@
     { "name": "metadata", "label": "Metadata", "type": "collection" }
   ],
   "communication": {
-    "url": "/memories/{{parameters.id}}",
+    "url": "/memories/{{encodeURL(parameters.id)}}",
     "method": "PATCH",
     "body": {
       "content": "{{parameters.content}}",

@@ -9,7 +9,7 @@
     { "name": "id", "label": "Memory ID", "type": "text", "required": true }
   ],
   "communication": {
-    "url": "/memories/{{parameters.id}}",
+    "url": "/memories/{{encodeURL(parameters.id)}}",
     "method": "DELETE",
     "response": { "output": { "id": "{{parameters.id}}", "deleted": true } }
   },
