@@ -8,14 +8,20 @@
   "parameters": [
     { "name": "id", "label": "Memory ID", "type": "text", "required": true },
     { "name": "content", "label": "Content", "type": "text" },
-    { "name": "metadata", "label": "Metadata", "type": "collection" }
+    { "name": "metadata", "label": "Metadata", "type": "array", "spec": {
+      "type": "collection",
+      "spec": [
+        { "name": "key", "type": "text", "label": "Key" },
+        { "name": "value", "type": "text", "label": "Value" }
+      ]
+    } }
   ],
   "communication": {
     "url": "/memories/{{encodeURL(parameters.id)}}",
     "method": "PATCH",
     "body": {
       "content": "{{parameters.content}}",
-      "metadata": "{{parameters.metadata}}"
+      "metadata": "{{toCollection(parameters.metadata, 'key', 'value')}}"
     },
     "response": { "output": "{{body}}" }
   },

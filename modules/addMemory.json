@@ -7,10 +7,13 @@
   "connection": "apikey",
   "parameters": [
     { "name": "content", "label": "Content", "type": "text", "required": true },
-    { "name": "metadata", "label": "Metadata", "type": "collection", "spec": [
-      { "name": "key", "type": "text" },
-      { "name": "value", "type": "text" }
-    ] },
+    { "name": "metadata", "label": "Metadata", "type": "array", "spec": {
+      "type": "collection",
+      "spec": [
+        { "name": "key", "type": "text", "label": "Key" },
+        { "name": "value", "type": "text", "label": "Value" }
+      ]
+    } },
     { "name": "actorId", "label": "Actor ID", "type": "text" }
   ],
   "communication": {
@@ -18,7 +21,7 @@
     "method": "POST",
     "body": {
       "content": "{{parameters.content}}",
-      "metadata": "{{parameters.metadata}}",
+      "metadata": "{{toCollection(parameters.metadata, 'key', 'value')}}",
       "actorId": "{{parameters.actorId}}"
     },
     "response": { "output": "{{body}}" }
