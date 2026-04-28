@@ -6,7 +6,7 @@
   "connection": "apikey",
   "communication": {
     "verification": {
-      "condition": "{{request.headers['x-ledgermem-secret']}} === '{{connection.workspaceId}}'",
+      "condition": "{{request.headers['x-ledgermem-signature']}} === '{{webhook.signingSecret}}'",
       "respond": { "status": 200, "body": { "ok": true } }
     },
     "response": { "output": "{{request.body}}" }
@@ -20,7 +20,12 @@
     "url": "/webhooks",
     "method": "POST",
     "body": { "url": "{{webhook.url}}", "events": ["memory.created"] },
-    "response": { "data": { "hookId": "{{body.id}}" } }
+    "response": {
+      "data": {
+        "hookId": "{{body.id}}",
+        "signingSecret": "{{body.signingSecret}}"
+      }
+    }
   },
   "detach": {
     "url": "/webhooks/{{webhook.hookId}}",
