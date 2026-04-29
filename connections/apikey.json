@@ -1,6 +1,6 @@
 {
   "name": "apikey",
-  "label": "LedgerMem API Key",
+  "label": "Mnemo API Key",
   "type": "apiKey",
   "parameters": [
     {
@@ -8,14 +8,14 @@
       "label": "API Key",
       "type": "password",
       "required": true,
-      "help": "Find this in Settings → API Keys at https://proofly.dev"
+      "help": "Find this in Settings → API Keys at https://getmnemo.xyz"
     },
     {
       "name": "workspaceId",
       "label": "Workspace ID",
       "type": "text",
       "required": true,
-      "help": "Your LedgerMem workspace identifier"
+      "help": "Your Mnemo workspace identifier"
     }
   ],
   "communication": {

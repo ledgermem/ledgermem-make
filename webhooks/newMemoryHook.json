@@ -1,12 +1,12 @@
 {
   "name": "newMemoryHook",
   "label": "New Memory (Instant)",
-  "description": "Webhook receiver for instant new-memory events. Configure target URL in LedgerMem dashboard.",
+  "description": "Webhook receiver for instant new-memory events. Configure target URL in Mnemo dashboard.",
   "type": "webhook",
   "connection": "apikey",
   "communication": {
     "verification": {
-      "condition": "{{length(webhook.signingSecret) > 0 && request.headers['x-ledgermem-signature'] = webhook.signingSecret}}",
+      "condition": "{{length(webhook.signingSecret) > 0 && request.headers['x-getmnemo-signature'] = webhook.signingSecret}}",
       "respond": { "status": 200, "body": { "ok": true } }
     },
     "response": { "output": "{{request.body}}" }
